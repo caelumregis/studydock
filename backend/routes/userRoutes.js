@@ -13,4 +13,22 @@ router.get("/", (req, res) => {
   res.json(users);
 });
 
+// Returns one user by ID
+//
+// Route parameters come from the URL as strings
+// so we convert the ID to a number before searching
+router.get("/:id", (req, res) => {
+  const userId = Number(req.params.id);
+
+  const user = userService.getUserById(userId);
+
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found"
+    });
+  }
+
+  res.json(user);
+});
+
 module.exports = router;

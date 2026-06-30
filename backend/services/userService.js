@@ -21,6 +21,11 @@ function getAllUsers() {
     return users;
 }
 
+function getUserById(id) {
+    return users.find(user => user.id === id);
+}
+
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    getUserById
 };
