@@ -1,17 +1,16 @@
-const express = require('express');
+const express = require("express");
+const userService = require("../services/userService");
+
 const router = express.Router();
 
-// User routes are grouped here so server.js stays focused
-// on application setup instead of feature-specific endpoints.
-router.get('/', (req, res) => {
-    res.json([
-        {
-            id: 1,
-            name: "Eric"
-        }
-    ]);
+// Returns all users.
+//
+// The route delegates data retrieval to the service layer so this file
+// stays focused on HTTP routing instead of business/data logic.
+router.get("/", (req, res) => {
+  const users = userService.getAllUsers();
+
+  res.json(users);
 });
 
 module.exports = router;
-
-    
