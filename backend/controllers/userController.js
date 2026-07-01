@@ -1,6 +1,7 @@
 const userService = require('../services/userService'); 
 const APIResponse = require('../utils/APIResponse');
 
+
 function getAllUsers(req, res) {
     const users = userService.getAllUsers();
 
@@ -12,15 +13,9 @@ function getAllUsers(req, res) {
 }
 
 function getUserById(req, res) {
-  const userId = Number(req.params.id);
+  const userId = req.validatedId;
 
-  if (!Number.isInteger(userId) || userId <= 0) {
-    return APIResponse.error(
-        res,
-        "Invalid user ID",
-        400
-    );
-  }
+  
   
   const user = userService.getUserById(userId);
 
