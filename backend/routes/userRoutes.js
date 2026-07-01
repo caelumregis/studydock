@@ -1,5 +1,6 @@
 const express = require('express');
 const userService = require('../services/userService');
+const APIResponse = require('../utils/APIResponse');
 
 const router = express.Router();
 
@@ -7,11 +8,11 @@ const router = express.Router();
 router.get('/', (req, res) => {
     const users = userService.getAllUsers();
 
-    res.status(200).json({
-      success : true,
-      message : "Users retrieved successfully",
-      data : users
-    });
+    return APIResponse.success(
+      res,
+      users,
+      "Users retrieved successfully"
+    );
 });
 
 // GET /users/:id - Get a user by ID
@@ -21,18 +22,18 @@ router.get('/:id', (req, res) => {
   const user = userService.getUserById(userId);
 
   if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: "User not found",
-      data: null
-    });
+    return APIResponse.error(
+      res,
+      "User not found",
+      404
+    );
   }
 
-  res.status(200).json({
-    success: true,
-    message: "User retrieved successfully",
-    data: user
-  });
+  return APIResponse.success(
+    res,
+    user,
+    "User retrieved successfully"
+  );
 });
 
 module.exports = router;
