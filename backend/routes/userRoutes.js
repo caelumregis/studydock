@@ -1,34 +1,38 @@
-const express = require("express");
-const userService = require("../services/userService");
+const express = require('express');
+const userService = require('../services/userService');
 
 const router = express.Router();
 
-// Returns all users.
-//
-// The route delegates data retrieval to the service layer so this file
-// stays focused on HTTP routing instead of business/data logic.
-router.get("/", (req, res) => {
-  const users = userService.getAllUsers();
+// GET /users - Get all users
+router.get('/', (req, res) => {
+    const users = userService.getAllUsers();
 
-  res.json(users);
+    res.status(200).json({
+      success : true,
+      message : "Users retrieved successfully",
+      data : users
+    });
 });
 
-// Returns one user by ID
-//
-// Route parameters come from the URL as strings
-// so we convert the ID to a number before searching
-router.get("/:id", (req, res) => {
+// GET /users/:id - Get a user by ID
+router.get('/:id', (req, res) => {
   const userId = Number(req.params.id);
 
   const user = userService.getUserById(userId);
 
   if (!user) {
     return res.status(404).json({
-      message: "User not found"
+      success: false,
+      message: "User not found",
+      data: null
     });
   }
 
-  res.json(user);
+  res.status(200).json({
+    success: true,
+    message: "User retrieved successfully",
+    data: user
+  });
 });
 
 module.exports = router;
