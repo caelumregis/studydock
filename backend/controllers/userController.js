@@ -14,6 +14,14 @@ function getAllUsers(req, res) {
 function getUserById(req, res) {
   const userId = Number(req.params.id);
 
+  if (!Number.isInteger(userId) || userId <= 0) {
+    return APIResponse.error(
+        res,
+        "Invalid user ID",
+        400
+    );
+  }
+  
   const user = userService.getUserById(userId);
 
   if (!user) {
